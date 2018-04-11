@@ -26,7 +26,11 @@ int start(String dirPath, String fileName, int enhanceType)
     Mat RawImg;
     if (ReadAndEnhance(dirPath, fileName, RawImg, 0) != 0) return 1; // 出错返回1退出
 
-    // split 等后续操作
+    // split
+    // findHead
+    // 检测 等后续操作
+    // 这个函数里最好都是调用
+    // 只有读取和分割可能会出错，记得返回非零，方便主界面提示
 
     /*
     如果用文件，就生成一个与图片文件同名的文件夹，
