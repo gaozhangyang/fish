@@ -10,5 +10,5 @@ a zixing ai project.
 
 ## 更新记录
 ***
-###时间：201804112028
+### 时间：201804112028
 增加`Structs.h`，`PublicCode.cpp`文件，初始化readme。
