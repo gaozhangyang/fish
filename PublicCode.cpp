@@ -4,27 +4,27 @@
 using namespace cv;
 using namespace std;
 
-void show(String name, Mat img)
-{
-	namedWindow(name, CV_WINDOW_AUTOSIZE);
-	imshow(name, img);
-	return;
-}
+static int WIDTH = 1360;
+static int HEIGHT = 1024;
 
 // 读取原图并增强
-int ReadAndEnhance(string Dirpath, string fileName, Mat &img, int enhanceType)     {
+int ReadAndEnhance(String dirPath, String fileName, Mat &img, int enhanceType)
+{
+    img = imread(dirPath + "\\" + fileName);
 
-    // read
-
-    // enhance
+    switch (enhanceType) {
+        default:
+            // enhance
+            break;
+    }
 
     return 0;  // 出错要记得返回非零
 }
 
-int start(string Dirpath, string fileName, int enhanceType) {
-
+int start(String dirPath, String fileName, int enhanceType)
+{
     Mat RawImg;
-    if (ReadAndEnhance(Dirpath, fileName, RawImg, 0) != 0) return 1; // 出错返回1退出
+    if (ReadAndEnhance(dirPath, fileName, RawImg, 0) != 0) return 1; // 出错返回1退出
 
     // split 等后续操作
 
