@@ -7,6 +7,13 @@ using namespace std;
 static int WIDTH = 1360;
 static int HEIGHT = 1024;
 
+void show(String name, Mat img)
+{
+	namedWindow(name, CV_WINDOW_AUTOSIZE);
+	imshow(name, img);
+	return;
+}
+
 // 读取原图并增强
 int ReadAndEnhance(String dirPath, String fileName, Mat &img, int enhanceType)
 {
