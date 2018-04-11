@@ -24,6 +24,7 @@ typedef struct chrInfo {
     vector<pos> white_p;  // 染色体坐标信息（不一定只有一个）
     vector<pos> green_p; 
     vector<pos> red_p;
+    float average_gray;  // 平均灰度
 };
 
 // 一张图片的结果( _fish_Series_0x.tif )
@@ -33,5 +34,6 @@ typedef struct singleImg {
     // 四张图，带框
     vector<chrInfo> chs; // 每个精子的结果
     vector<vector<int>> mutiChId;  // 粘连的精子头编号组，多个粘连，
+    float average_gray;  // 平均灰度
 };
 
