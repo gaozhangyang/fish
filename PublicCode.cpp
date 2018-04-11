@@ -12,7 +12,7 @@ void show(String name, Mat img)
 }
 
 // 读取原图并增强
-int ReadAndEnhance(string Dirpath, string fileName, Mat &img)     {
+int ReadAndEnhance(string Dirpath, string fileName, Mat &img, int enhanceType)     {
 
     // read
 
@@ -21,10 +21,10 @@ int ReadAndEnhance(string Dirpath, string fileName, Mat &img)     {
     return 0;  // 出错要记得返回非零
 }
 
-int start(string Dirpath, string fileName) {
+int start(string Dirpath, string fileName, int enhanceType) {
 
     Mat RawImg;
-    if (ReadAndEnhance(Dirpath, fileName, RawImg) != 0) return 1; // 出错返回1退出
+    if (ReadAndEnhance(Dirpath, fileName, RawImg, 0) != 0) return 1; // 出错返回1退出
 
     // split 等后续操作
 
