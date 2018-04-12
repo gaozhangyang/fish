@@ -1,26 +1,11 @@
+// PublicCode.cpp: 公共代码。
+//
+
 #include "stdafx.h"
-#include "Structs.h"
-
-#define WIDTH 1360
-#define HEIGHT 1024
-#define FISH_READ_ERROR -10
-#define FISH_ENHANCE_PARA_ERROR -12
-
-// 错误全用负数，FISH开头 ERROR结尾
-// 两位的是读取和增强可能出现的
-// split出错可以用三位的
 
 using namespace std;
 using namespace cv;
 
-
-void show(String name, Mat img)
-{
-	namedWindow(name, CV_WINDOW_AUTOSIZE);
-	imshow(name, img);
-    waitKey(0);
-	return;
-}
 
 //--------------------------------
 
@@ -34,8 +19,15 @@ void enhance_1(Mat &img) {
     return;
 }
 
-// 读取原图并增强
-int ReadAndEnhance(String dirPath, String fileName, Mat &img, int enhanceType)
+
+/*
+读取原图并增强
+@param dirPath 图片所在文件夹路径
+@param fileName 图片名称
+@param enhanceType 增强方式
+@param img 接收图像的Mat变量
+*/
+int ReadAndEnhance(String dirPath, String fileName, int enhanceType, Mat &img)
 {
     img = imread(dirPath + "\\" + fileName);
     if (img.empty()) return FISH_READ_ERROR;  // 读取错误 返回-10
@@ -51,15 +43,22 @@ int ReadAndEnhance(String dirPath, String fileName, Mat &img, int enhanceType)
 
 //--------------------------
 
+/*
+对单个图片进行处理
+@param dirPath 图片所在文件夹路径
+@param fileName 图片名称
+@param enhanceType 增强方式
+*/
 int start(String dirPath, String fileName, int enhanceType)
 {
     Mat RawImg;
     int flag = -1;  // 函数运行情况参数
     
-    flag = ReadAndEnhance(dirPath, fileName, RawImg, 0);
-    if (flag != 0) return flag; // 出错返回错误参数
+    flag = ReadAndEnhance(dirPath, fileName, enhanceType, RawImg);
+    CHECK(flag);  // 出错返回错误参数
 
-    // split
+    // flag = split(RawImg ... );
+    // CHECK(flag);
 
     // 去燥？？？ TODO(@izhx)
 
@@ -75,4 +74,16 @@ int start(String dirPath, String fileName, int enhanceType)
     */
 
     return 0;  // 正常执行返回0，其他不为0
+}
+
+int main()
+{
+    String dirPath = "C:\\Users\\z\\Desktop\\fish\\Q0518\\3-7-15";
+    String fileName = "_fish_Series_01.tif";
+
+    cout << start(dirPath, fileName, 0) << endl;;
+
+	system("pause");
+	waitKey(0);
+    return 0;
 }

@@ -1,6 +1,18 @@
 #pragma once
 #include "stdafx.h"
 
+#define CHECK(x) if(x)return x
+
+#define WIDTH 1360
+#define HEIGHT 1024
+
+#define FISH_READ_ERROR -10
+#define FISH_ENHANCE_PARA_ERROR -12
+
+// 错误全用负数，FISH开头 ERROR结尾
+// 两位的是读取和增强可能出现的
+// split出错可以用三位的
+
 using namespace cv;
 using namespace std;
 
@@ -37,3 +49,11 @@ typedef struct singleImg {
     float average_gray;  // 平均灰度
 };
 
+
+
+void show(String name, Mat img) {
+    namedWindow(name, CV_WINDOW_AUTOSIZE);
+    imshow(name, img);
+    waitKey(0);
+    return;
+}
