@@ -24,12 +24,12 @@ typedef struct Tiff2Mat_imgae {
 } ChrImgs;
 
 // 左上(top left)、右下(lower right) 坐标
-typedef struct pos {
+struct pos {
     int tl_x, tl_y, br_x, br_y;
 };
 
 // 一个精子的检测结果
-typedef struct chrInfo {
+struct chrInfo {
     int id, status;  // id为此精子在图上编号，status 正常 0, 异常 1;
     int white_num, green_num, red_num;  // 三种染色体个数
     pos head_p;  // 精子头坐标信息
@@ -40,7 +40,7 @@ typedef struct chrInfo {
 };
 
 // 一张图片的结果( _fish_Series_0x.tif )
-typedef struct singleImg {
+struct singleImg {
     int single_head_num, mutiple_head_num;
     int bad_total_num, bad_white_num, bad_green_num, bad_red_num;
     // 四张图，带框
@@ -49,11 +49,3 @@ typedef struct singleImg {
     float average_gray;  // 平均灰度
 };
 
-
-
-void show(String name, Mat img) {
-    namedWindow(name, CV_WINDOW_AUTOSIZE);
-    imshow(name, img);
-    waitKey(0);
-    return;
-}

@@ -4,7 +4,7 @@ a zixing ai project.
 
 ## 代码说明
 1. `FishHead.h`
-约定的定义、结构、函数
+约定的定义、结构
 2. `PublicCode.cpp`
 程序主体，详细的处理流程自己留着
 
