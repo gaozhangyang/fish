@@ -10,40 +10,82 @@ using namespace cv;
 void show(String name, Mat img) {
     namedWindow(name, CV_WINDOW_AUTOSIZE);
     imshow(name, img);
-    waitKey(0);
     return;
 }
 
 //--------------------------------
 
-void enhance_0(Mat &img) {
-    
+/*
+图像USM锐化
+@param src 原始图像
+@param dst 输出图像
+@param nAmount USM参数
+*/
+void sharpen_USM(Mat src, Mat &dst, int nAmount) {
+    double sigma = 3;  // 3最好，小于3精子变小，大于3精子粘连变多
+    int threshold = 1; 
+    float amount = nAmount / 100.0f;  // 500
+
+    Mat imgBlurred;
+    GaussianBlur(src, imgBlurred, Size(), sigma, sigma);
+
+    Mat lowContrastMask = abs(src - imgBlurred)<threshold;
+    dst = src * (1 + amount) + imgBlurred * (-amount);
+    src.copyTo(dst, lowContrastMask);
+    return;
+}
+
+void enhance_0(Sperm &spe) {
+    int USMpara = 600;
+    Mat m0 = Mat::zeros(spe.raw.size(), spe.raw.type());
+    Mat m1 = Mat::zeros(spe.head_image.size(), spe.head_image.type());
+    Mat m2 = Mat::zeros(spe.chromosome_image1.size(), spe.chromosome_image1.type());
+    Mat m3 = Mat::zeros(spe.chromosome_image2.size(), spe.chromosome_image2.type());
+    Mat m4 = Mat::zeros(spe.chromosome_image3.size(), spe.chromosome_image3.type());
+    sharpen_USM(spe.raw, m0, USMpara);
+    sharpen_USM(spe.head_image, m1, USMpara);
+    sharpen_USM(spe.chromosome_image1, m2, USMpara);
+    sharpen_USM(spe.chromosome_image2, m3, USMpara);
+    sharpen_USM(spe.chromosome_image3, m4, USMpara);
+    spe.raw = m0.clone();
+    spe.head_image = m1.clone();
+    spe.chromosome_image1 = m2.clone();
+    spe.chromosome_image2 = m3.clone();
+    spe.chromosome_image3 = m4.clone();
+
     return;
 }
 
 void enhance_1(Mat &img) {
-
+    //Mat m1 = Mat::zeros(img.size(), img.type());
+    Mat m2 = Mat::zeros(img.size(), img.type());
+    //img.convertTo(m1, -1, 1, -30);  // 亮度 -30，
+    //sharpen_USM(m1, m1, 500);
+    sharpen_USM(img, m2, 600);
+    /*show("raw", img);
+    show("m1", m1);
+    show("m2", m2);
+    Mat mm = imread("C:\\Users\\z\\Desktop\\fish\\Q0518\\14-19-11\\01.tif");
+    show("mm", mm);
+    waitKey();*/
+    img = m2.clone();
+    return;
     return;
 }
 
 
 /*
-读取原图并增强，只有两种方式
+读取原图并分割
 @param dirPath 图片所在文件夹路径
 @param fileName 图片名称
-@param enhanceType 增强方式
-@param img 接收图像的Mat变量
+@param spe 精子结构体
 */
-int ReadAndEnhance(String dirPath, String fileName, int enhanceType, Mat &img)
-{
-    img = imread(dirPath + "\\" + fileName);
+int ReadAndSplit(String dirPath, String fileName, Sperm &spe) {
+    Mat img = imread(dirPath + "\\" + fileName);
     if (img.empty()) return FISH_READ_ERROR;  // 读取错误 返回-10
 
-    switch (enhanceType) {
-        case 0: enhance_0(img); break;
-        case 1: enhance_1(img); break;
-        default: return FISH_ENHANCE_PARA_ERROR; // 增强参数错误 返回-12
-    }
+    Sperm chr;
+    // split read to 结构体
 
     return 0;
 }
@@ -56,17 +98,20 @@ int ReadAndEnhance(String dirPath, String fileName, int enhanceType, Mat &img)
 @param fileName 图片名称
 @param enhanceType 增强方式
 */
-int start(String dirPath, String fileName, int enhanceType)
-{
-    Mat rawImg;
+int start(String dirPath, String fileName, int enhanceType) {
+    Sperm spe;
     int flag = -1;  // 函数运行情况参数
-    
-    flag = ReadAndEnhance(dirPath, fileName, enhanceType, rawImg);
+
+    // opencv不能处理八页，所以改成先split再分别增强4次
+    flag = ReadAndSplit(dirPath, fileName, spe);
     CHECK(flag);  // 出错返回错误参数
 
-    show("1", rawImg);
-    // flag = split(RawImg ... );
-    // CHECK(flag);
+    if (enhanceType == 0) enhance_0(spe);  // 参数等于0是对结构体整体
+    else if (enhanceType == 1) enhance_1(spe.raw);  // 参数等于1是我测试单张用的
+    else return FISH_ENHANCE_PARA_ERROR;
+
+    
+    // 现在只实现了USM锐化，函数是对结构体做。
 
     // findHead
     // 检测 等后续操作
