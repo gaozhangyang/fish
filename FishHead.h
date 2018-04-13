@@ -45,7 +45,7 @@ struct SingleImg {
     int single_head_num, mutiple_head_num;
     int bad_total_num, bad_white_num, bad_green_num, bad_red_num;
     // 四张图，带框
-    vector<SpeInfo> chs; // 每个精子的结果
+    vector<SpeInfo> sperms; // 每个精子的结果
     vector<vector<int>> mutiChId;  // 粘连的精子头编号组，多个粘连，
     float average_gray;  // 平均灰度
 };

@@ -84,7 +84,7 @@ int ReadAndSplit(String dirPath, String fileName, Sperm &spe) {
     Mat img = imread(dirPath + "\\" + fileName);
     if (img.empty()) return FISH_READ_ERROR;  // 读取错误 返回-10
 
-    Sperm chr;
+    Sperm spe;
     // split read to 结构体
 
     return 0;
@@ -109,8 +109,6 @@ int start(String dirPath, String fileName, int enhanceType) {
     if (enhanceType == 0) enhance_0(spe);  // 参数等于0是对结构体整体
     else if (enhanceType == 1) enhance_1(spe.raw);  // 参数等于1是我测试单张用的
     else return FISH_ENHANCE_PARA_ERROR;
-
-    
     // 现在只实现了USM锐化，函数是对结构体做。
 
     // findHead
