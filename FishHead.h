@@ -27,16 +27,19 @@ typedef struct Tiff2Mat_imgae {
 // 左上(top left)、右下(lower right) 坐标
 struct Pos {
     int tl_x, tl_y, br_x, br_y;
+    int center_x, center_y;
+	float area;//面积
+	uchar gray;//灰度
 };
 
 // 一个精子的检测结果
 struct SpeInfo {
     int id, status;  // id为此精子在图上编号，status 正常 0, 异常 1;
     int white_num, green_num, red_num;  // 三种染色体个数
-    Pos head_p;  // 精子头坐标信息
-    vector<Pos> white_p;  // 染色体坐标信息（不一定只有一个）
-    vector<Pos> green_p; 
-    vector<Pos> red_p;
+    PosAndArea head_p;  // 精子头坐标信息
+    vector<PosAndArea> white_p;  // 染色体坐标信息（不一定只有一个）
+    vector<PosAndArea> green_p; 
+    vector<PosAndArea> red_p;
     float average_gray;  // 平均灰度
 };
 
