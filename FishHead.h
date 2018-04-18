@@ -25,8 +25,11 @@ typedef struct Tiff2Mat_imgae {
 } Sperm;
 
 // 左上(top left)、右下(lower right) 坐标
-struct Pos {
+struct PosAndArea {
     int tl_x, tl_y, br_x, br_y;
+    int center_x,center_y;
+    float area;
+    uchar gray;
 };
 
 // 一个精子的检测结果
